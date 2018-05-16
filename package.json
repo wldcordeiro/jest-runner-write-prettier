@@ -1,6 +1,6 @@
 {
   "name": "jest-runner-write-prettier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Jest Runner for Prettier that writes the changes.",
   "main": "src/index.js",
   "author": "Wellington Cordeiro",
@@ -39,8 +39,13 @@
     "snapshot-diff-serializer": "^1.0.0"
   },
   "jest": {
-    "projects": ["jest-lint.config.js", "jest-prettier.config.js"],
-    "snapshotSerializers": ["snapshot-diff-serializer"]
+    "projects": [
+      "jest-lint.config.js",
+      "jest-prettier.config.js"
+    ],
+    "snapshotSerializers": [
+      "snapshot-diff-serializer"
+    ]
   },
   "jest-runner-eslint": {
     "cliOptions": {
