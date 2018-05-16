@@ -46,7 +46,7 @@
     "snapshotSerializers": ["snapshot-diff-serializer"]
   },
   "lint-staged": {
-    "*": "yarn jest"
+    "*": ["yarn test", "git add"]
   },
   "jest-runner-eslint": {
     "cliOptions": {
