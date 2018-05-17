@@ -3,21 +3,7 @@ const prettier = require('prettier')
 const { from, of } = require('rxjs')
 const { catchError, mapTo, mergeMap } = require('rxjs/operators')
 
-const { readContent, writeContent } = require('./utils')
-
-function writePrettified(path, config) {
-  return readContent(path).pipe(
-    mergeMap(({ content }) => {
-      const prettierConfig = Object.assign({}, config, { filepath: path })
-      const isPretty = prettier.check(content, prettierConfig)
-      if (isPretty) {
-        return of({ path, content })
-      }
-      const prettified = prettier.format(content, prettierConfig)
-      return writeContent(path, prettified)
-    })
-  )
-}
+const { writePrettified } = require('./utils')
 
 module.exports = ({ testPath }) => {
   const start = new Date()
