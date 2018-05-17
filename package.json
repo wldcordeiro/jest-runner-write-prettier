@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "commitizen": "^2.9.6",
-    "cz-gitmoji-changelog": "^1.1.0",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.11.0",
@@ -39,17 +39,17 @@
     "snapshot-diff-serializer": "^1.0.0"
   },
   "jest": {
-    "projects": [
-      "jest-lint.config.js",
-      "jest-prettier.config.js"
-    ],
-    "snapshotSerializers": [
-      "snapshot-diff-serializer"
-    ]
+    "projects": ["jest-lint.config.js", "jest-prettier.config.js"],
+    "snapshotSerializers": ["snapshot-diff-serializer"]
   },
   "jest-runner-eslint": {
     "cliOptions": {
       "fix": true
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
     }
   }
 }

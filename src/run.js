@@ -9,6 +9,10 @@ function writePrettified(path, config) {
   return readContent(path).pipe(
     mergeMap(({ content }) => {
       const prettierConfig = Object.assign({}, config, { filepath: path })
+      const isPretty = prettier.check(content, prettierConfig)
+      if (isPretty) {
+        return of({ path, content })
+      }
       const prettified = prettier.format(content, prettierConfig)
       return writeContent(path, prettified)
     })
