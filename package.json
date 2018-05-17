@@ -39,7 +39,7 @@
     "snapshot-diff-serializer": "^1.0.0"
   },
   "jest": {
-    "projects": ["jest-lint.config.js", "jest-prettier.config.js"],
+    "projects": ["jest-*.config.js"],
     "snapshotSerializers": ["snapshot-diff-serializer"]
   },
   "jest-runner-eslint": {
