@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "semantic-release": "semantic-release",
-    "test": "jest",
+    "test": "jest --coverage",
     "precommit": "yarn test",
     "prepush": "yarn test"
   },
@@ -35,12 +35,10 @@
     "jest-runner-eslint": "^0.5.0",
     "prettier": "^1.12.1",
     "rxjs-compat": "^6.1.0",
-    "semantic-release": "^15.4.1",
-    "snapshot-diff-serializer": "^1.0.0"
+    "semantic-release": "^15.4.1"
   },
   "jest": {
-    "projects": ["jest-*.config.js"],
-    "snapshotSerializers": ["snapshot-diff-serializer"]
+    "projects": ["jest-*.config.js"]
   },
   "jest-runner-eslint": {
     "cliOptions": {

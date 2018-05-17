@@ -1,42 +1,61 @@
 /* eslint-env jest */
 jest.mock('fs')
+jest.mock('prettier')
 const fs = require('fs')
-const { readContent, writeContent } = require('./utils')
+const prettier = require('prettier')
+const { readContent, writeContent, writePrettified } = require('./utils')
+
+const path = 'foo.svg'
+const content = '<svg></svg>'
 
 describe('readContent', () => {
   test('reads the file and adds the content', () => {
-    const fileContent = '<svg></svg>'
-    fs.readFile.mockImplementation((file, enc, cb) => cb(null, fileContent))
-    const file = 'foo.svg'
+    fs.readFile.mockImplementation((file, enc, cb) => cb(null, content))
 
-    readContent(file).subscribe(result => {
+    readContent(path).subscribe(result => {
       expect(fs.readFile).toHaveBeenCalledWith(
-        file,
+        path,
         'utf8',
         expect.any(Function)
       )
-      expect(result).toEqual({
-        file,
-        content: fileContent
-      })
+      expect(result).toEqual({ path, content })
     })
   })
 })
 
 describe('writeContent', () => {
   test('writes the file content to specified file', () => {
-    const file = 'foo.svg'
-    const content = '<svg></svg>'
     fs.writeFile.mockImplementation((file, content, enc, cb) => cb())
 
-    writeContent({ file, content }).subscribe(result => {
+    writeContent({ path, content }).subscribe(result => {
       expect(fs.writeFile).toHaveBeenCalledWith(
-        file,
+        path,
         content,
         'utf8',
         expect.any(Function)
       )
-      expect(result).toEqual({ file, content })
+      expect(result).toEqual({ path, content })
+    })
+  })
+})
+
+describe('writePrettified', () => {
+  test('writes prettified contents', () => {
+    fs.readFile.mockImplementation((file, enc, cb) => cb(null, content))
+    fs.writeFile.mockImplementation((file, content, enc, cb) => cb())
+    prettier.check.mockImplementation(() => false)
+    writePrettified(path, {}).subscribe(result => {
+      expect(prettier.check).toHaveBeenCalledWith(content, { filepath: path })
+      expect(prettier.format).toHaveBeenCalledWith(content, { filepath: path })
+    })
+  })
+  test('leaves already pretty content untouched', () => {
+    fs.readFile.mockImplementation((file, enc, cb) => cb(null, content))
+    fs.writeFile.mockImplementation((file, content, enc, cb) => cb())
+    prettier.check.mockImplementation(() => true)
+    writePrettified(path, {}).subscribe(result => {
+      expect(prettier.check).toHaveBeenCalledWith(content, { filepath: path })
+      expect(prettier.format).not.toHaveBeenCalled()
     })
   })
 })
